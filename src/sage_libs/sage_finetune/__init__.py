@@ -16,6 +16,11 @@ from .data import JSONDatasetLoader
 # Trainers
 from .trainers import LoRATrainer, MockTrainer
 
+# Task management
+from .manager import FinetuneManager, finetune_manager
+from .status import FinetuneStatus
+from .task import FinetuneTask
+
 __all__ = [
     "__version__",
     "__author__",
@@ -23,4 +28,8 @@ __all__ = [
     "LoRATrainer",
     "MockTrainer",
     "JSONDatasetLoader",
+    "FinetuneManager",
+    "finetune_manager",
+    "FinetuneStatus",
+    "FinetuneTask",
 ]
