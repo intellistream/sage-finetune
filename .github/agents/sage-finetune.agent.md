@@ -33,6 +33,7 @@ tools: ['vscode', 'execute', 'read', 'agent', 'edit', 'search', 'web', 'todo']
 
 - Keep changes minimal and repository-local; avoid re-introducing SAGE core internals in this repo.
 - Flownet-first ecosystem direction: do not add new `ray` imports/dependencies.
+- Do not create new local virtual environments (`venv`/`.venv`); use the existing configured Python environment.
 - Prefer fail-fast behavior with actionable errors; avoid silent fallback logic.
 - Keep dependency changes explicit in `pyproject.toml` (no ad-hoc install-only fixes).
 - In conda environments, use `python -m pip` (not plain `pip`).
