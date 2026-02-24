@@ -1,2 +1,5 @@
 __pycache__/
 src/sage_libs/sage_finetune/.mypy_cache/*
+dist/
+*.whl
+*.tar.gz
