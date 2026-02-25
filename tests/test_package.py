@@ -7,9 +7,10 @@ class TestPackageImports:
     def test_import_package(self):
         """Test that main package imports correctly."""
         import sage_finetune
+        from sage_finetune._version import __version__ as pkg_version
 
         assert hasattr(sage_finetune, "__version__")
-        assert sage_finetune.__version__ == "0.0.0.1"
+        assert sage_finetune.__version__ == pkg_version
 
     def test_import_trainers(self):
         """Test importing trainers."""
@@ -35,6 +36,10 @@ class TestPackageImports:
             "LoRATrainer",
             "MockTrainer",
             "JSONDatasetLoader",
+            "FinetuneManager",
+            "finetune_manager",
+            "FinetuneStatus",
+            "FinetuneTask",
         }
 
         assert set(sage_finetune.__all__) == expected
