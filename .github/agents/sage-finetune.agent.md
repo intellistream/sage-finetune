@@ -60,3 +60,9 @@ tools: ['vscode', 'execute', 'read', 'agent', 'edit', 'search', 'web', 'todo']
 - Prefer focused smoke checks around touched paths first (e.g., CLI path or trainer initialization path).
 - If adding/changing config fields, verify serialization/loading consistency and default-value behavior.
 - If changing training flow, verify output artifacts remain stable (`checkpoints/`, `lora_weights/`, `logs/`).
+
+## Polyrepo coordination rules
+
+- Treat this repository as the only local source tree; do not assume sibling repositories exist.
+- If a task spans multiple repositories, implement only this repo and explicitly list follow-up repo/version-bump actions.
+- Do not create `venv`/`.venv`; always use the existing configured Python environment.
