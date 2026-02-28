@@ -258,11 +258,11 @@ def serve_model(
 ):
     """🚀 启动模型服务
 
-    Deprecated: 此命令已废弃，请使用统一的 vLLM 服务：
+    Deprecated: 此命令已废弃，请使用统一的 sageLLM 服务：
         sage llm serve --model <model_path>
     """
     console.print("[yellow]⚠️  此命令已废弃[/yellow]\n")
-    console.print("请使用统一的 vLLM 服务命令：\n")
+    console.print("请使用统一的 sageLLM 服务命令：\n")
 
     model_path, use_lora, lora_path = _find_model_for_serving(model_name)
 

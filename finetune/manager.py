@@ -80,10 +80,10 @@ def check_gpu_resources() -> dict[str, Any]:
         try:
             import subprocess as sp
 
-            # 检查 vLLM 服务
+            # 检查推理服务
             ps_output = sp.check_output(["ps", "aux"], encoding="utf-8")
-            if "vllm" in ps_output.lower():
-                result["running_services"].append("vLLM (推理服务)")
+            if "sage llm" in ps_output.lower() or "sagellm" in ps_output.lower():
+                result["running_services"].append("sageLLM (推理服务)")
             if "embedding_server" in ps_output.lower():
                 result["running_services"].append("Embedding 服务")
         except Exception:
