@@ -6,7 +6,7 @@ This package provides fine-tuning tools for SAGE pipelines:
 - Dataset loaders: JSON/JSONL data loading
 """
 
-# Auto-register with SAGE if available
+# Register components into SAGE finetune factory on import
 from . import _register as _  # noqa: F401
 from ._version import __author__, __email__, __version__
 

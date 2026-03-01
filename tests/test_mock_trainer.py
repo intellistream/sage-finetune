@@ -1,7 +1,7 @@
 """Tests for MockTrainer."""
 
-from sage_finetune.trainers import MockTrainer
-from sage_finetune.trainers.mock_trainer import TrainingConfig
+from sage_libs.sage_finetune.trainers import MockTrainer
+from sage_libs.sage_finetune.trainers.mock_trainer import TrainingConfig
 
 
 class TestMockTrainer:

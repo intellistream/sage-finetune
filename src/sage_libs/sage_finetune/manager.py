@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 import multiprocessing
-import os
 import subprocess
 import time
 import uuid
@@ -274,49 +273,6 @@ class FinetuneManager:
                 task.metrics.update(metrics)
             self._save_tasks()
     
-    def list_available_models(self) -> list[dict[str, Any]]:
-        """List available models (base models + completed fine-tuned models).
-        
-        Returns:
-            List of model info dictionaries
-        """
-        models = []
-        
-        # Add completed fine-tuned models
-        for task in self.tasks.values():
-            if task.status == FinetuneStatus.COMPLETED:
-                output_path = Path(task.output_dir)
-                merged_path = output_path / "merged_model"
-                lora_path = output_path / "lora"
-                
-                if merged_path.exists():
-                    models.append({
-                        "name": task.task_id,
-                        "path": str(merged_path),
-                        "type": "merged",
-                        "base_model": task.model_name,
-                        "completed_at": task.completed_at,
-                    })
-                elif lora_path.exists():
-                    models.append({
-                        "name": task.task_id,
-                        "path": str(lora_path),
-                        "type": "lora",
-                        "base_model": task.model_name,
-                        "completed_at": task.completed_at,
-                    })
-        
-        return models
-    
-    def get_current_model(self) -> str | None:
-        """Get currently active model path.
-        
-        Returns:
-            Path to current model, or None
-        """
-        # Read from environment variable or config
-        return os.getenv("SAGE_STUDIO_LLM_MODEL")
-    
     def _start_next_queued_task(self):
         """Start next queued task if any."""
         # Find first queued task
@@ -349,7 +305,7 @@ class FinetuneManager:
                 self.tasks[task_id] = FinetuneTask.from_dict(task_data)
         
         except Exception as e:
-            print(f"Warning: Failed to load tasks: {e}")
+            raise RuntimeError(f"Failed to load finetune tasks from {self.tasks_file}") from e
 
 
 # Singleton instance

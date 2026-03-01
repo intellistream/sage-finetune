@@ -6,14 +6,7 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
-# Try importing SAGE base class
-try:
-    from sage.libs.finetune.interface.base import FineTuner, TrainingConfig
-
-    _HAS_SAGE = True
-except ImportError:
-    FineTuner = object
-    _HAS_SAGE = False
+from sage.libs.finetune.interface.base import FineTuner
 
 
 @dataclass

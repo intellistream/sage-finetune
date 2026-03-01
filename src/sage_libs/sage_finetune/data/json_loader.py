@@ -7,14 +7,7 @@ from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
 
-# Try importing SAGE base class
-try:
-    from sage.libs.finetune.interface.base import DatasetLoader
-
-    _HAS_SAGE = True
-except ImportError:
-    DatasetLoader = object
-    _HAS_SAGE = False
+from sage.libs.finetune.interface.base import DatasetLoader
 
 
 class JSONDatasetLoader(DatasetLoader):

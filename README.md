@@ -1,6 +1,6 @@
 # sage-finetune
 
-Fine-tuning implementations for the SAGE AI data processing framework.
+Fine-tuning component implementations for SAGE L3.
 
 ## Installation
 
@@ -19,10 +19,16 @@ pip install isage-finetune[peft]
 - **Mock Trainer**: Testing trainer for pipeline validation
 - **JSON/JSONL Loader**: Flexible data loading for instruction and chat formats
 
+## Boundary
+
+- `FinetuneManager` only manages task scheduling and status lifecycle.
+- Trainers only implement training/evaluation behavior.
+- Package registration is explicit and fail-fast.
+
 ## Quick Start
 
 ```python
-from sage_finetune import MockTrainer, JSONDatasetLoader
+from sage_libs.sage_finetune import MockTrainer, JSONDatasetLoader
 
 # Load training data
 loader = JSONDatasetLoader()
@@ -37,7 +43,8 @@ print(f"Loss: {result['train_loss']:.4f}")
 ### LoRA Fine-tuning
 
 ```python
-from sage_finetune import LoRATrainer, LoRAConfig
+from sage_libs.sage_finetune import LoRATrainer
+from sage_libs.sage_finetune.trainers.lora_trainer import LoRAConfig
 
 trainer = LoRATrainer(
     model_name="gpt2",
@@ -62,7 +69,7 @@ trainer.save_model("./my_lora_model")
 
 ## Integration with SAGE
 
-When SAGE is installed, components auto-register with the framework:
+Components register into the SAGE finetune factory on package import:
 
 ```python
 from sage.libs.finetune import create_trainer

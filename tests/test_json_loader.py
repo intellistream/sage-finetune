@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from sage_finetune.data import JSONDatasetLoader
+from sage_libs.sage_finetune.data import JSONDatasetLoader
 
 
 class TestJSONDatasetLoader:

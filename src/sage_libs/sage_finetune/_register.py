@@ -2,23 +2,24 @@
 
 from __future__ import annotations
 
-# Try to register with SAGE framework
-try:
-    from sage.libs.finetune.interface.factory import register_loader, register_trainer
+from sage.libs.finetune.interface.factory import (
+    register_loader,
+    register_trainer,
+    registered_loaders,
+    registered_trainers,
+)
 
-    from .data import JSONDatasetLoader
-    from .trainers import LoRATrainer, MockTrainer
+from .data import JSONDatasetLoader
+from .trainers import LoRATrainer, MockTrainer
 
+if "lora" not in registered_trainers():
     register_trainer("lora", LoRATrainer)
+if "mock" not in registered_trainers():
     register_trainer("mock", MockTrainer)
+if "json" not in registered_loaders():
     register_loader("json", JSONDatasetLoader)
-
-    _SAGE_REGISTERED = True
-
-except ImportError:
-    _SAGE_REGISTERED = False
 
 
 def is_registered() -> bool:
-    """Check if registered with SAGE."""
-    return _SAGE_REGISTERED
+    """Check registration status."""
+    return True

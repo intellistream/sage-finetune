@@ -5,7 +5,7 @@
 | 属性 | 值 |
 |-----|-----|
 | **PyPI 包名** | `isage-finetune` |
-| **导入名称** | `sage_finetune` |
+| **导入名称** | `sage_libs.sage_finetune` |
 | **SAGE 架构层级** | **L3 (Algorithm Library)** |
 | **版本格式** | 四段式 `0.0.0.x` |
 | **仓库** | `intellistream/sage-finetune` |
@@ -32,7 +32,7 @@
 ### 1. 训练器 (Trainers)
 
 ```python
-from sage_finetune import (
+from sage_libs.sage_finetune import (
     SFTTrainer,      # Supervised Fine-Tuning
     LoRATrainer,     # LoRA 微调
     QLoRATrainer,    # QLoRA 量化微调
@@ -52,7 +52,7 @@ trainer.train(dataset, output_dir="./output")
 ### 2. 数据加载器 (Data Loaders)
 
 ```python
-from sage_finetune import (
+from sage_libs.sage_finetune import (
     InstructionDataLoader,
     ChatDataLoader,
     PreferenceDataLoader,
@@ -68,7 +68,7 @@ dataset = loader.load("path/to/data.json")
 ### 3. 配置和工具
 
 ```python
-from sage_finetune import (
+from sage_libs.sage_finetune import (
     TrainingConfig,
     LoRAConfig,
     QuantizationConfig,
@@ -87,7 +87,7 @@ config = TrainingConfig(
 
 ```
 sage-finetune/
-├── src/sage_finetune/
+├── src/sage_libs/sage_finetune/
 │   ├── __init__.py
 │   ├── _version.py      # 版本：__version__ = "0.0.0.x"
 │   ├── _register.py     # 自动注册到 SAGE 工厂
@@ -118,7 +118,7 @@ SAGE 主仓库中的 `sage.libs.finetune` 包含：
    - 抽象基类：`Trainer`, `DataLoader`, `Config`
    - 工厂函数：`create_trainer()`, `create_data_loader()` 等
 
-### 本包 (`sage_finetune`) 提供
+### 本包 (`sage_libs.sage_finetune`) 提供
 
 **具体实现**，通过 `_register.py` 自动注册到 SAGE 工厂。
 
@@ -172,7 +172,7 @@ pytest tests/ -v -k "not gpu"
 ## 发布
 
 ```bash
-# 版本递增：修改 src/sage_finetune/_version.py
+# 版本递增：修改 src/sage_libs/sage_finetune/_version.py
 python -m build
 twine upload dist/*
 ```
