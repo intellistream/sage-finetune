@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "isage-finetune"
-version = "0.1.0.5"
+version = "0.2.0"
 description = "SAGE Fine-tuning Framework - Trainers and data loaders for LLM fine-tuning"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -15,7 +15,6 @@ keywords = ["finetune", "training", "LoRA", "LLM", "AI"]
 dependencies = [
     "pydantic>=2.0.0",
     "typing-extensions>=4.0.0",
-    "isage-libs>=0.2.4.22",
 ]
 
 [project.optional-dependencies]

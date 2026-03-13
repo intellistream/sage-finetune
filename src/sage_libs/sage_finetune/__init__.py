@@ -1,13 +1,5 @@
-"""SAGE Finetune - Fine-tuning implementations for LLMs.
+"""SAGE Fine-tuning Framework."""
 
-This package provides fine-tuning tools for SAGE pipelines:
-- LoRA Trainer: Low-rank adaptation fine-tuning
-- Full Trainer: Full parameter fine-tuning (mock for testing)
-- Dataset loaders: JSON/JSONL data loading
-"""
-
-# Register components into SAGE finetune factory on import
-from . import _register as _  # noqa: F401
 from ._version import __author__, __email__, __version__
 
 # Data loaders
