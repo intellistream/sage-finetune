@@ -4,88 +4,38 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "isage-finetune"
-version = "0.1.0"
-description = "Lightweight LLM fine-tuning toolkit for the SAGE ecosystem"
+version = "0.2.0"
+description = "SAGE Fine-tuning Framework - Trainers and data loaders for LLM fine-tuning"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
-authors = [
-    {name = "IntelliStream Team", email = "shuhao_zhang@hust.edu.cn"}
-]
-keywords = ["llm", "fine-tuning", "lora", "quantization", "agent-training"]
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-    "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-]
+license = "MIT"
+authors = [{ name = "IntelliStream Team", email = "shuhao_zhang@hust.edu.cn" }]
+keywords = ["finetune", "training", "LoRA", "LLM", "AI"]
 
 dependencies = [
-    "torch>=2.0.0",
-    "transformers>=4.36.0",
-    "peft>=0.7.0",
-    "datasets>=2.14.0",
-    "accelerate>=0.25.0",
-    "bitsandbytes>=0.41.0",
-    "typer>=0.9.0",
-    "rich>=13.0.0",
     "pydantic>=2.0.0",
+    "typing-extensions>=4.0.0",
 ]
 
 [project.optional-dependencies]
-tensorboard = [
-    "tensorboard>=2.14.0",
-]
-wandb = [
-    "wandb>=0.15.0",
-]
-dev = [
-    "pytest>=7.4.0",
-    "pytest-cov>=4.1.0",
-    "ruff>=0.1.0",
-    "mypy>=1.7.0",
-    "pre-commit>=3.5.0",
-]
-all = [
-    "isage-finetune[tensorboard,wandb,dev]",
-]
+full = []
+dev = ["isage-finetune[full]", "pytest>=7.0.0", "pytest-asyncio>=0.21.0", "ruff>=0.4.0"]
 
 [project.urls]
-Homepage = "https://github.com/intellistream/sage-finetune"
-Documentation = "https://intellistream.github.io/SAGE/finetune/"
-Repository = "https://github.com/intellistream/sage-finetune"
-Issues = "https://github.com/intellistream/sage-finetune/issues"
+"Homepage" = "https://github.com/intellistream/sage-finetune"
+"Repository" = "https://github.com/intellistream/sage-finetune"
 
-[project.scripts]
-sage-finetune = "sage_finetune.cli:app"
-
-[tool.setuptools]
-packages = ["sage_finetune", "sage_finetune.agent"]
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["sage_libs*"]
 
 [tool.setuptools.package-dir]
-sage_finetune = "finetune"
+"" = "src"
 
 [tool.ruff]
 line-length = 100
 target-version = "py310"
 
-[tool.ruff.lint]
-select = ["E", "F", "I", "N", "W", "UP"]
-ignore = ["E501"]  # Line too long (handled by formatter)
-
-[tool.mypy]
-python_version = "3.10"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = false
-warn_unused_ignores = true
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-python_files = ["test_*.py"]
-addopts = "-v --cov=sage_finetune --cov-report=term-missing"
+asyncio_mode = "auto"
