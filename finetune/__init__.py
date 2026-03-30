@@ -25,32 +25,51 @@ SAGE Finetune - 轻量级大模型微调工具
     trainer.train(dataset)
 """
 
-# 延迟导入：只在实际使用时才加载 transformers 等重量级依赖
-# 这对于 CLI --help 等轻量级操作很重要
-
-from .cli import app  # CLI 应用
+# 仅导入轻量模块，避免在包导入阶段触发对历史 SAGE 命名空间的硬依赖。
 from .config import LoRAConfig, PresetConfigs, TrainingConfig
 from .data import load_training_data, prepare_dataset
-from .engine import (  # Control Plane integration (L3 implementation)
-    FinetuneConfig,
-    FinetuneEngine,
-)
-from .manager import (  # Studio backend components (moved from L6 to L3)
-    FinetuneManager,
-    FinetuneStatus,
-    FinetuneTask,
-    check_gpu_resources,
-    finetune_manager,  # Global singleton instance
-)
 
 
 # LoRATrainer 延迟导入，使用 __getattr__
 def __getattr__(name):
-    """延迟导入 LoRATrainer，避免在模块加载时就导入 transformers"""
+    """延迟导入运行时组件，避免模块加载阶段失败。"""
     if name == "LoRATrainer":
         from .trainer import LoRATrainer
 
         return LoRATrainer
+    if name == "app":
+        from .cli import app
+
+        return app
+    if name in {
+        "FinetuneConfig",
+        "FinetuneEngine",
+    }:
+        from .engine import FinetuneConfig, FinetuneEngine
+
+        return {"FinetuneConfig": FinetuneConfig, "FinetuneEngine": FinetuneEngine}[name]
+    if name in {
+        "FinetuneManager",
+        "FinetuneStatus",
+        "FinetuneTask",
+        "check_gpu_resources",
+        "finetune_manager",
+    }:
+        from .manager import (
+            FinetuneManager,
+            FinetuneStatus,
+            FinetuneTask,
+            check_gpu_resources,
+            finetune_manager,
+        )
+
+        return {
+            "FinetuneManager": FinetuneManager,
+            "FinetuneStatus": FinetuneStatus,
+            "FinetuneTask": FinetuneTask,
+            "check_gpu_resources": check_gpu_resources,
+            "finetune_manager": finetune_manager,
+        }[name]
     if name == "agent":
         from . import agent
 

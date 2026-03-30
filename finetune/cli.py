@@ -20,13 +20,13 @@ from rich.panel import Panel
 from rich.prompt import Confirm, IntPrompt, Prompt
 from rich.table import Table
 
-from sage.libs.finetune.core import generate_training_config, prepare_training_data
-from sage.libs.finetune.models import TASK_NAMES, FinetuneTask
-from sage.libs.finetune.service import (
+from .core import generate_training_config, prepare_training_data
+from .models import TASK_NAMES, FinetuneTask
+from .service import (
     merge_lora_weights,
     start_training,
 )
-from sage.libs.finetune.utils import (
+from .utils import (
     check_training_dependencies,
     get_finetune_output_dir,
     get_sage_root,
