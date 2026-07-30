@@ -54,24 +54,21 @@ find_version_file() {
 }
 
 VERSION_FILE=$(find_version_file)
-TARGET=""
 CURRENT_VERSION=""
 
-if [ -n "$VERSION_FILE" ]; then
+if [ -f "pyproject.toml" ]; then
+    if git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -Eq '(^pyproject\.toml$|_version\.py$)'; then
+        exit 0
+    fi
+    CURRENT_VERSION=$(grep -oP '^version = "\K[^"]+' pyproject.toml 2>/dev/null || true)
+elif [ -n "$VERSION_FILE" ]; then
     if git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -q '_version.py'; then
         exit 0
     fi
     CURRENT_VERSION=$(grep -oP '__version__ = "\K[^"]+' "$VERSION_FILE" 2>/dev/null || true)
-    TARGET="version_file"
-elif [ -f "pyproject.toml" ]; then
-    if git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -q '^pyproject.toml$'; then
-        exit 0
-    fi
-    CURRENT_VERSION=$(grep -oP '^version = "\K[^"]+' pyproject.toml 2>/dev/null || true)
-    [ -n "$CURRENT_VERSION" ] && TARGET="pyproject"
 fi
 
-if [ -z "$CURRENT_VERSION" ] || [ -z "$TARGET" ]; then
+if [ -z "$CURRENT_VERSION" ]; then
     exit 0
 fi
 
@@ -84,12 +81,13 @@ echo -e "${BLUE}📦 Auto-bumping version: $CURRENT_VERSION → $NEW_VERSION${NC
 
 touch .git/SAGE_POST_COMMIT_RUNNING
 
-if [ "$TARGET" = "version_file" ]; then
-    sed -i "s/__version__ = \"${CURRENT_VERSION}\"/__version__ = \"${NEW_VERSION}\"/" "$VERSION_FILE"
-    git add "$VERSION_FILE"
-else
-    sed -i "s/^version = \"${CURRENT_VERSION}\"/version = \"${NEW_VERSION}\"/" pyproject.toml
+if [ -f "pyproject.toml" ]; then
+    sed -E -i "s/^version = \"[^\"]+\"/version = \"${NEW_VERSION}\"/" pyproject.toml
     git add pyproject.toml
+fi
+if [ -n "$VERSION_FILE" ]; then
+    sed -E -i "s/__version__ = \"[^\"]+\"/__version__ = \"${NEW_VERSION}\"/" "$VERSION_FILE"
+    git add "$VERSION_FILE"
 fi
 
 git commit --amend --no-edit --no-verify
